@@ -5,35 +5,21 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
     tools:context=".MainActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbarMain"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/mediumPurple"
-        tools:ignore="MissingConstraints"
-        />
-
-    <LinearLayout
-        android:id="@+id/LLMain"
-        android:layout_width="397dp"
-        android:layout_height="575dp"
-        android:layout_centerInParent="true"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarMain">
 
         <VideoView
             android:id="@+id/videoView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
             android:layout_centrInParent="true"
 
             />
 
 
-    </LinearLayout>
 
 </RelativeLayout>

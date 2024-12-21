@@ -37,12 +37,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //Инициализация Тулбар
-        toolbarMain = binding.toolbarMain
-        setSupportActionBar(toolbarMain)
-        title = " Плеер"
-        toolbarMain.subtitle = " Вер.1.Главная страница"
-        toolbarMain.setLogo(R.drawable.pleer)
 
         val mediaController = android.widget.MediaController(this)
         mediaController.setAnchorView(mediaController)
@@ -56,57 +50,8 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-        private fun pleySaund(sound: Int) {
-            binding.pleyButtonFAB.setOnClickListener {
-                if (mediaPlayer == null) {
-                    mediaPlayer = MediaPlayer.create(this, sound)
-                    initializeSeekBar()
-                }
-                mediaPlayer?.start()
-            }
-            binding.pauseButtonFAB.setOnClickListener {
-                if (mediaPlayer != null) {
-                    mediaPlayer?.pause()
-                }
-            }
-            binding.stopButtonFAB.setOnClickListener {
-                if (mediaPlayer != null) {
-                    mediaPlayer?.stop()
-                    mediaPlayer?.reset()
-                    mediaPlayer?.release()
-                    mediaPlayer = null
-                }
-            }
-            binding.seekbarSB.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
-                override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                    if (fromUser)mediaPlayer?.seekTo(progress)
-                }
-
-                override fun onStartTrackingTouch(seekBar: SeekBar?) {
-                }
-
-                override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                }
 
 
-            })
-        }
-
-        private fun initializeSeekBar() {
-            binding.seekbarSB.max = mediaPlayer!!.duration
-            var handler = Handler()
-            handler.postDelayed(object : Runnable{
-                override fun run() {
-                    try {
-                        binding.seekbarSB.progress = mediaPlayer!!.currentPosition
-                        handler.postDelayed(this,1000)
-                    } catch (e:Exception){
-                        binding.seekbarSB.progress=0
-                    }
-                }
-            },0)
-
-    }
 
     //Инициализация Меню
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
