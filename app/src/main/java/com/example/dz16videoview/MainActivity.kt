@@ -19,9 +19,9 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.dz16videoview.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var toolbarMain: Toolbar
+
     private lateinit var binding: ActivityMainBinding
-    private var mediaPlayer: MediaPlayer? = null
+
     private var videoList = mutableListOf(
         R.raw.small,
         R.raw.smoll2,
