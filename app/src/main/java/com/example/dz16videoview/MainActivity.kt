@@ -27,8 +27,8 @@ class MainActivity : AppCompatActivity() {
         R.raw.smoll2,
         R.raw.smoll3
     )
-    private var video = "https://dzen.ru/video/watch/6729dafa4cc5bf3cb83e07a4?rid=3929810250.1069.1734601551466.76095&referrer_clid=1400"
-
+    private var video = "https://videocdn.cdnpk.net/videos/6227a07e-ba94-46ac-ae62-4368d626090c/horizontal/previews/clear/large.mp4?token=exp=1734799323~hmac=30747497ec0d761a1c8b2fb7c904504d3028ce7625e19ba7a6ea4307bfc128a9"
+private var  video1 ="https://videocdn.cdnpk.net/joy/content/video/free/2014-06/large_preview/Blue_Sky_and_Clouds_Timelapse_0892__Videvo.mp4?token=exp=1734803454~hmac=04d8c13e4f1a5a490d45f6bb2a0ec514754c0b733b69a5631ad8dad8dd29fbce"
 
 
     @SuppressLint("MissingInflatedId")
@@ -41,10 +41,13 @@ class MainActivity : AppCompatActivity() {
         val mediaController = android.widget.MediaController(this)
         mediaController.setAnchorView(mediaController)
         val onLaneUri = Uri.parse(video)
+        val offLaneURI = Uri.parse("android.resource://" + packageName + "/" + R.raw.sky)
         binding.videoView.setMediaController(mediaController)
-        binding.videoView.setVideoURI(onLaneUri)
+        //binding.videoView.setVideoURI(onLaneUri)
+        binding.videoView.setVideoURI(offLaneURI)
         binding.videoView.requestFocus()
         binding.videoView.start()
+
 
 
 
