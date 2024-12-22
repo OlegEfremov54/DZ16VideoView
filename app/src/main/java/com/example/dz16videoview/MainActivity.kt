@@ -1,6 +1,9 @@
 package com.example.dz16videoview
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.app.ComponentCaller
+import android.content.Intent
 import android.media.MediaPlayer
 import android.media.session.MediaController
 import android.net.Uri
@@ -19,7 +22,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.dz16videoview.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-
+    private val PICK_VIDEO_REQUEST_CODE = 101
     private lateinit var binding: ActivityMainBinding
 
 
@@ -45,34 +48,33 @@ private var  video1 ="https://videocdn.cdnpk.net/joy/content/video/free/2014-06/
         toolbarMain.subtitle = " Вер.1.Главная страница"
         toolbarMain.setLogo(R.drawable.pleer)
 
+//Инициация видео
+        val intent = Intent()
+        intent.type = "video/*"
+        intent.action = Intent.ACTION_GET_CONTENT
+        startActivityForResult(
+            Intent.createChooser(intent, "Select Video"),
+            PICK_VIDEO_REQUEST_CODE
+        )
+
+        binding.videoView.start()
 
 
-        var countListPley:Int=0
-
-        val mediaController = android.widget.MediaController(this)
-        mediaController.setAnchorView(mediaController)
-        val onLaneUri = Uri.parse(video)
-        val offLaneURI = Uri.parse("android.resource://" + packageName + "/" + R.raw.sky)
-
-        binding.playButton.setOnClickListener{
-            pley(videoList[countListPley])
-        }
-
-        binding.pauseButton.setOnClickListener{
-            payse()
-        }
-
-        binding.stopButton.setOnClickListener{
-            stop()
-        }
-
-        binding.nextButton.setOnClickListener{
-            countListPley = (countListPley + 1) % videoList.size // Циклический переход вперед
-            if(countListPley>videoList.size){
-                videoList[0]
-            }
-            switchVideo(countListPley)
-
+    }
+    override fun onActivityResult(
+        requestCode: Int,
+        resultCode: Int,
+        data: Intent?,
+        caller: ComponentCaller
+    ) {
+        super.onActivityResult(requestCode, resultCode, data, caller)
+        if (resultCode == Activity.RESULT_OK) {
+            val mediaController = android.widget.MediaController(this)
+            mediaController.setAnchorView(mediaController)
+            val videoUri = data?.data
+            binding.videoView.setVideoURI(videoUri)
+            binding.videoView.requestFocus()
+            binding.videoView.start()
         }
 
     }
