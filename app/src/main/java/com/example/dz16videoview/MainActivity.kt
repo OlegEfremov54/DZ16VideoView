@@ -22,6 +22,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
+
     private var videoList = mutableListOf(
         R.raw.small,
         R.raw.smoll2,
@@ -36,6 +37,16 @@ private var  video1 ="https://videocdn.cdnpk.net/joy/content/video/free/2014-06/
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        //Инициализация Тулбар
+        var toolbarMain = binding.toolbarMain
+        setSupportActionBar(toolbarMain)
+        title = " Видео плеер"
+        toolbarMain.subtitle = " Вер.1.Главная страница"
+        toolbarMain.setLogo(R.drawable.pleer)
+
+
+
         var countListPley:Int=0
 
         val mediaController = android.widget.MediaController(this)
@@ -75,7 +86,7 @@ private var  video1 ="https://videocdn.cdnpk.net/joy/content/video/free/2014-06/
 
         Toast.makeText(
             applicationContext,
-            "Идет  Воспроизведение",
+            "Идет  Воспроизведение ${uri}",
             Toast.LENGTH_LONG
         ).show()
         binding.videoView.start()
@@ -94,13 +105,13 @@ private var  video1 ="https://videocdn.cdnpk.net/joy/content/video/free/2014-06/
 
     private fun switchVideo(countListPley:Int) {
         binding.videoView.stopPlayback()
-
-        pley(videoList[countListPley])
         Toast.makeText(
             applicationContext,
-            "Выбранo видео ${countListPley}, нажмите Воспроизведение",
+            "Выбранo видео ${countListPley}",
             Toast.LENGTH_LONG
         ).show()
+        pley(videoList[countListPley])
+
     }
 
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
@@ -9,39 +9,53 @@
     android:paddingRight="8dp"
     android:paddingTop="8dp"
     android:paddingBottom="8dp"
+    android:orientation="vertical"
     tools:context=".MainActivity">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbarMain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/mediumPurple"
+            tools:ignore="MissingConstraints"
+            />
+
 
         <LinearLayout
             android:id="@+id/LL1"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:layout_height="70dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/toolbarMain">
+
                 <Button
                     android:id="@+id/playButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/play"
                     android:onClick="play"
+                    android:text="@string/play"
                     app:layout_constraintBottom_toTopOf="@id/videoView"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toLeftOf="@id/pauseButton"
                     app:layout_constraintTop_toTopOf="parent" />
+
                 <Button
                     android:id="@+id/pauseButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/pause"
                     android:onClick="pause"
+                    android:text="@string/pause"
                     app:layout_constraintBottom_toTopOf="@id/videoView"
                     app:layout_constraintLeft_toRightOf="@id/playButton"
                     app:layout_constraintRight_toLeftOf="@id/stopButton"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <Button
                     android:id="@+id/stopButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/stop"
                     android:onClick="stop"
+                    android:text="@string/stop"
                     app:layout_constraintBottom_toTopOf="@id/videoView"
                     app:layout_constraintLeft_toRightOf="@id/pauseButton"
                     app:layout_constraintRight_toRightOf="parent"
@@ -51,8 +65,8 @@
                     android:id="@+id/nextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/next"
                     android:onClick="next"
+                    android:text="@string/next"
                     app:layout_constraintBottom_toTopOf="@id/videoView"
                     app:layout_constraintLeft_toRightOf="@id/pauseButton"
                     app:layout_constraintRight_toRightOf="parent"
@@ -63,8 +77,8 @@
 
         <VideoView
             android:id="@+id/videoView"
-            android:layout_width="wrap_content"
-            android:layout_height="616dp"
+            android:layout_width="385dp"
+            android:layout_height="410dp"
             android:layout_centerInParent="true"
             app:layout_constraintTop_toBottomOf="@+id/LL1"
 
@@ -72,4 +86,4 @@
 
 
 
-</RelativeLayout>
+</LinearLayout>
