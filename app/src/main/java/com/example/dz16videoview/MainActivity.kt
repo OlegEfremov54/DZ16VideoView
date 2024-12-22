@@ -72,18 +72,16 @@ private var  video1 ="https://videocdn.cdnpk.net/joy/content/video/free/2014-06/
             val mediaController = android.widget.MediaController(this)
             mediaController.setAnchorView(mediaController)
             val videoUri = data?.data
-            binding.videoView.setVideoURI(videoUri)
-            binding.videoView.requestFocus()
-            binding.videoView.start()
+            pley(videoUri!!)
         }
 
     }
+    //получили из галереи
+    private fun pley (uri: Uri){
 
-    private fun pley (uri: Int){
-        val offLaneURI = Uri.parse("android.resource://" + packageName + "/" + uri)
         val mediaController = android.widget.MediaController(this)
         binding.videoView.setMediaController(mediaController)
-        binding.videoView.setVideoURI(offLaneURI)
+        binding.videoView.setVideoURI(uri)
         binding.videoView.requestFocus()
 
         Toast.makeText(
@@ -112,7 +110,7 @@ private var  video1 ="https://videocdn.cdnpk.net/joy/content/video/free/2014-06/
             "Выбранo видео ${countListPley}",
             Toast.LENGTH_LONG
         ).show()
-        pley(videoList[countListPley])
+       // pley(videoList[countListPley])
 
     }
 
