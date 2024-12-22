@@ -4,35 +4,28 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.ComponentCaller
 import android.content.Intent
-import android.media.MediaPlayer
-import android.media.session.MediaController
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.SeekBar
-import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.example.dz16videoview.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private val PICK_VIDEO_REQUEST_CODE = 101
     private lateinit var binding: ActivityMainBinding
-
+    var countListPley: Int = 0
 
     private var videoList = mutableListOf(
         R.raw.small,
         R.raw.smoll2,
         R.raw.smoll3
     )
-    private var video = "https://videocdn.cdnpk.net/videos/6227a07e-ba94-46ac-ae62-4368d626090c/horizontal/previews/clear/large.mp4?token=exp=1734799323~hmac=30747497ec0d761a1c8b2fb7c904504d3028ce7625e19ba7a6ea4307bfc128a9"
-private var  video1 ="https://videocdn.cdnpk.net/joy/content/video/free/2014-06/large_preview/Blue_Sky_and_Clouds_Timelapse_0892__Videvo.mp4?token=exp=1734803454~hmac=04d8c13e4f1a5a490d45f6bb2a0ec514754c0b733b69a5631ad8dad8dd29fbce"
+    //private var video =
+    //    "https://videocdn.cdnpk.net/videos/6227a07e-ba94-46ac-ae62-4368d626090c/horizontal/previews/clear/large.mp4?token=exp=1734799323~hmac=30747497ec0d761a1c8b2fb7c904504d3028ce7625e19ba7a6ea4307bfc128a9"
+    //private var video1 =
+    //    "https://videocdn.cdnpk.net/joy/content/video/free/2014-06/large_preview/Blue_Sky_and_Clouds_Timelapse_0892__Videvo.mp4?token=exp=1734803454~hmac=04d8c13e4f1a5a490d45f6bb2a0ec514754c0b733b69a5631ad8dad8dd29fbce"
 
 
     @SuppressLint("MissingInflatedId")
@@ -49,33 +42,48 @@ private var  video1 ="https://videocdn.cdnpk.net/joy/content/video/free/2014-06/
         toolbarMain.setLogo(R.drawable.pleer)
 
 //Инициация видео
-        val intent = Intent()
-        intent.type = "video/*"
-        intent.action = Intent.ACTION_GET_CONTENT
-        startActivityForResult(
-            Intent.createChooser(intent, "Select Video"),
-            PICK_VIDEO_REQUEST_CODE
-        )
 
-        binding.videoView.start()
+        binding.stopButton.setOnClickListener {
+           stop()
+        }
 
+        binding.pauseButton.setOnClickListener {
+            payse()
+        }
+        binding.playButton.setOnClickListener{
+            val intent = Intent()
+            intent.type = "video/*"
+            intent.action = Intent.ACTION_GET_CONTENT
+            startActivityForResult(
+                Intent.createChooser(intent, "Select Video"),
+                PICK_VIDEO_REQUEST_CODE
+            )
 
-    }
-    override fun onActivityResult(
-        requestCode: Int,
-        resultCode: Int,
-        data: Intent?,
-        caller: ComponentCaller
-    ) {
-        super.onActivityResult(requestCode, resultCode, data, caller)
-        if (resultCode == Activity.RESULT_OK) {
-            val mediaController = android.widget.MediaController(this)
-            mediaController.setAnchorView(mediaController)
-            val videoUri = data?.data
-            pley(videoUri!!)
+            binding.videoView.start()
+        }
+        binding.nextButton.setOnClickListener {
+            countListPley = (countListPley + 1) % videoList.size // Циклический переход вперед
+            if (countListPley > videoList.size) {
+                videoList[0]
+            }
+            switchVideo(countListPley)
+
         }
 
     }
+
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && requestCode == PICK_VIDEO_REQUEST_CODE) {
+            val videoUri = data?.data
+            if (videoUri != null) {
+                pley(videoUri)
+            }
+        }
+    }
+
     //получили из галереи
     private fun pley (uri: Uri){
 
@@ -91,7 +99,22 @@ private var  video1 ="https://videocdn.cdnpk.net/joy/content/video/free/2014-06/
         ).show()
         binding.videoView.start()
     }
+//Проигрывание из списка скачаных видео
+    private fun pleyLokal (uri: Int){
 
+        val offLaneURI = Uri.parse("android.resource://" + packageName + "/" + uri)
+        val mediaController = android.widget.MediaController(this)
+        binding.videoView.setMediaController(mediaController)
+        binding.videoView.setVideoURI(offLaneURI)
+        binding.videoView.requestFocus()
+
+        Toast.makeText(
+            applicationContext,
+            "Идет  Воспроизведение видео № ${countListPley}",
+            Toast.LENGTH_LONG
+        ).show()
+        binding.videoView.start()
+    }
     private fun stop (){
         binding.videoView.stopPlayback()
 
@@ -107,10 +130,10 @@ private var  video1 ="https://videocdn.cdnpk.net/joy/content/video/free/2014-06/
         binding.videoView.stopPlayback()
         Toast.makeText(
             applicationContext,
-            "Выбранo видео ${countListPley}",
+            "Выбранo видео №  ${countListPley}",
             Toast.LENGTH_LONG
         ).show()
-       // pley(videoList[countListPley])
+       pleyLokal(videoList[countListPley])
 
     }
 
