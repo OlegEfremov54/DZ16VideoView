@@ -2,4 +2,8 @@
     <string name="app_name">DZ16VideoView</string>
     <string name="infoStr">Информация о приложении</string>
     <string name="exit">Выход из приложения</string>
+    <string name="pause">Pause</string>
+    <string name="stop">Stop</string>
+    <string name="next">Next</string>
+    <string name="play">Play</string>
 </resources>

@@ -36,22 +36,73 @@ private var  video1 ="https://videocdn.cdnpk.net/joy/content/video/free/2014-06/
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        var countListPley:Int=0
 
         val mediaController = android.widget.MediaController(this)
         mediaController.setAnchorView(mediaController)
         val onLaneUri = Uri.parse(video)
         val offLaneURI = Uri.parse("android.resource://" + packageName + "/" + R.raw.sky)
-        binding.videoView.setMediaController(mediaController)
-        //binding.videoView.setVideoURI(onLaneUri)
-        binding.videoView.setVideoURI(offLaneURI)
-        binding.videoView.requestFocus()
-        binding.videoView.start()
 
+        binding.playButton.setOnClickListener{
+            pley(videoList[countListPley])
+        }
 
+        binding.pauseButton.setOnClickListener{
+            payse()
+        }
 
+        binding.stopButton.setOnClickListener{
+            stop()
+        }
+
+        binding.nextButton.setOnClickListener{
+            countListPley = (countListPley + 1) % videoList.size // Циклический переход вперед
+            if(countListPley>videoList.size){
+                videoList[0]
+            }
+            switchVideo(countListPley)
+
+        }
 
     }
+
+    private fun pley (uri: Int){
+        val offLaneURI = Uri.parse("android.resource://" + packageName + "/" + uri)
+        val mediaController = android.widget.MediaController(this)
+        binding.videoView.setMediaController(mediaController)
+        binding.videoView.setVideoURI(offLaneURI)
+        binding.videoView.requestFocus()
+
+        Toast.makeText(
+            applicationContext,
+            "Идет  Воспроизведение",
+            Toast.LENGTH_LONG
+        ).show()
+        binding.videoView.start()
+    }
+
+    private fun stop (){
+        binding.videoView.stopPlayback()
+
+    }
+
+    private fun payse(){
+        binding.videoView.pause()
+    }
+
+
+
+    private fun switchVideo(countListPley:Int) {
+        binding.videoView.stopPlayback()
+
+        pley(videoList[countListPley])
+        Toast.makeText(
+            applicationContext,
+            "Выбранo видео ${countListPley}, нажмите Воспроизведение",
+            Toast.LENGTH_LONG
+        ).show()
+    }
+
 
 
 
